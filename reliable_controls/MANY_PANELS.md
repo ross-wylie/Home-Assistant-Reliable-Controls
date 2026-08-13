@@ -15,14 +15,14 @@ In the app's **Configuration** tab, add one entry per board:
 ```yaml
 panels:
   - name: Main House
-    host: 10.83.106.161
+    host: 192.168.x.x
     controller: 1
   - name: Plant Room
-    host: 10.83.106.162
-    controller: 1
+    host: 192.168.x.x
+    controller: 2
   - name: Front Lobby
-    host: 10.83.106.163
-    controller: 1
+    host: 192.168.x.x
+    controller: 3
   # ... 17 more
 banks: 2
 poll_interval: 30
