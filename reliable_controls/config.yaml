@@ -10,7 +10,7 @@ description: >-
   UDP 21068) to Home Assistant via MQTT Discovery. Each panel becomes its own
   device. Variables become number entities, inputs and outputs become sensors.
 
-url: https://github.com/local/reliable-controls-bridge
+url: https://github.com/ross-wylie/Home-Assistant-Reliable-Controls
 
 # armv7, armhf and i386 are deprecated in current Supervisor versions.
 arch:
