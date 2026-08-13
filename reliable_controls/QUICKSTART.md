@@ -160,12 +160,6 @@ pretending it worked.
 
 ---
 
-# The one thing that could stop all of this
-
-Home Assistant has to be able to reach `10.83.106.161`. CQC talks to it from
-`10.83.106.155`, so if HA is on a different VLAN, none of this works no matter
-how it's configured.
-
 Symptom: step 6 finds no points whichever controller number you try.
 
 Fix: run the same bridge on the CQC server instead — see the end of
