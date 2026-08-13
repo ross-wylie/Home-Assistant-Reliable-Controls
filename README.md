@@ -68,8 +68,8 @@ finds it automatically.
 
 ```yaml
 panels:
-  - name: Main House          # drives entity ids; make it unique
-    host: 10.83.106.150       # the controller's IP
+  - name: RC Board          # drives entity ids; make it unique
+    host: 192.168.x.x       # the controller's IP
     controller: 1             # RC panel number, NOT an IP
 banks: 2
 subnet_mode: auto
@@ -126,12 +126,12 @@ protocol itself. Writes also only work on controllers 1–31.
 `rcp.py` runs standalone with no dependencies for diagnosing a panel:
 
 ```bash
-python3 rcp.py discover --host 10.83.106.150 --controller 1 --out points.json
-python3 rcp.py subnets  --host 10.83.106.150 --controller 1
-python3 rcp.py point    --host 10.83.106.150 --controller 1 --subnet 5 --last 16
-python3 rcp.py watch    --host 10.83.106.150 --controller 1
-python3 rcp.py write    --host 10.83.106.150 --controller 1 \
-                        --field Main-Var003-SpaSetpoint --value 102 --dry-run
+python3 rcp.py discover --host 192.168.x.x  --controller 1 --out points.json
+python3 rcp.py subnets  --host 192.168.x.x  --controller 1
+python3 rcp.py point    --host 192.168.x.x  --controller 1 --subnet 5 --last 16
+python3 rcp.py watch    --host 192.168.x.x  --controller 1
+python3 rcp.py write    --host 192.168.x.x  --controller 1 \
+                        --field Main-Var003-Setpoint --value 102 --dry-run
 ```
 
 `rc_mock_panel.py` is a fake panel that speaks the same protocol, so you can
