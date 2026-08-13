@@ -5,9 +5,9 @@ that's the wording used below.
 
 ---
 
-## If you already tried installing v1.0.0
+## If you already tried installing an older version than v1.5.3
 
-That build failed because of a missing `build.yaml`. This is v1.0.1, which
+That build failed because of a missing `build.yaml`. This is v1.5.3, which
 fixes it. Before continuing:
 
 1. **Settings → Apps** → open **Reliable Controls MACH Bridge** →
