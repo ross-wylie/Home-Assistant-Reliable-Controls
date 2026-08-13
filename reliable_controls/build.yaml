@@ -1,0 +1,12 @@
+---
+# Tells Supervisor which base image to pass as BUILD_FROM for each
+# architecture. Required since Supervisor 2026.04.0, which no longer supplies
+# a fallback automatically.
+#
+# ':latest' is used so the build doesn't break when Alpine bumps. If you'd
+# rather have reproducible builds, pin to a specific tag such as
+# ghcr.io/home-assistant/amd64-base:3.19 instead.
+
+build_from:
+  amd64: ghcr.io/home-assistant/amd64-base:latest
+  aarch64: ghcr.io/home-assistant/aarch64-base:latest

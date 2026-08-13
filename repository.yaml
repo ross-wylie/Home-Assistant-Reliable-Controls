@@ -1,0 +1,6 @@
+---
+# Makes this GitHub repo an add-on repository. Users add its URL under
+# Settings > Add-ons > Add-on Store > three-dot menu > Repositories.
+name: MACH Bridge for Home Assistant
+url: https://github.com/YOUR-GITHUB-USERNAME/ha-mach-bridge
+maintainer: Ross Wylie <rwylie@acmewidget.com>

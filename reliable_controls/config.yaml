@@ -1,0 +1,98 @@
+---
+# Home Assistant local app (add-on) manifest.
+# Place this folder at /addons/reliable_controls/ on your HAOS machine.
+
+name: Reliable Controls MACH Bridge
+version: "1.5.3"
+slug: reliable_controls
+description: >-
+  Bridges one or many Reliable Controls MACH panels (proprietary RCP over
+  UDP 21068) to Home Assistant via MQTT Discovery. Each panel becomes its own
+  device. Variables become number entities, inputs and outputs become sensors.
+
+url: https://github.com/local/reliable-controls-bridge
+
+# armv7, armhf and i386 are deprecated in current Supervisor versions.
+arch:
+  - amd64
+  - aarch64
+
+init: false
+startup: services
+boot: auto
+
+# Panels reply by UDP to our source port. Sharing the host network namespace
+# avoids fighting Docker's UDP NAT, and matters more with many panels.
+host_network: true
+
+# Ask Supervisor for broker details so the MQTT fields can stay blank.
+services:
+  - mqtt:need
+
+options:
+  # Add one entry per board. 'name' is cosmetic; 'host' and 'controller'
+  # identify the panel. controller is the RC panel number, NOT an IP.
+  panels:
+    - name: Main House
+      host: 10.83.106.161
+      controller: 1
+  banks: 2
+  subnet_mode: auto
+  split_subnets: true
+  purge_on_start: false
+  poll_interval: 300
+  fast_points: []
+  fast_interval: 10
+  read_only: true
+  min_value: -10000.0
+  max_value: 10000.0
+  step: 0.1
+  verbose: false
+
+schema:
+  panels:
+    - name: str?
+      host: str
+      controller: int(1,255)
+  # Banks to scan per type. 2 matches the original CQC driver. Protocol max 7.
+  banks: int(1,7)
+  # How to find sub-controllers (SubLAN boards) behind each panel:
+  #   bitmap - trust the command-50 reply, like CQC does (fast)
+  #   probe  - ask subnets 1-62 directly, ignoring the bitmap (~45s per panel)
+  #   auto   - bitmap first, fall back to probing if it finds nothing
+  subnet_mode: list(auto|bitmap|probe)
+  # true  = each SubLAN board gets its own HA device, nested under the main
+  #         panel. Strongly recommended: HA renders every entity on a device
+  #         page at once, so one device with thousands of points is very slow.
+  # false = one device per panel holding everything (the old behaviour).
+  split_subnets: bool
+  # One-shot cleanup. Deletes every retained MQTT discovery config this bridge
+  # has ever published, then republishes only what currently exists. Use it to
+  # clear orphaned entities - phantom sub-controllers, renamed points, removed
+  # panels - then set it back to false. Safe to leave on, it just adds ~11s to
+  # startup. Only touches configs naming this bridge's own devices.
+  purge_on_start: bool
+  # Seconds between polls, per panel. Panels poll concurrently, so this is not
+  # multiplied by the number of boards. Note this is the gap BETWEEN sweeps,
+  # not a rate: a panel with 30 sub-controllers takes about a minute to sweep,
+  # so a small value here just means near-continuous polling of the MS/TP trunk.
+  # Writes are unaffected - they are applied within about a second regardless.
+  poll_interval: int(5,3600)
+  # Points to refresh on a short interval. Substring match, or a glob if it
+  # contains * or ?. Case-insensitive, matched against the full point name.
+  # A handful of points costs a handful of requests; leave empty to disable.
+  #   - MH01_CU1_SETPOINT
+  #   - A17-Var001
+  #   - "*setpoint*"
+  fast_points:
+    - str
+  # Seconds between fast-set polls.
+  fast_interval: int(2,3600)
+  # Leave true until values have been checked against CQC.
+  read_only: bool
+  # Bounds for writable number entities. The panel's real engineering range
+  # lives in an undecoded byte, so these are deliberately wide.
+  min_value: float
+  max_value: float
+  step: float
+  verbose: bool

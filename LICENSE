@@ -1,6 +1,9 @@
 MIT License
 
-Copyright (c) 2026 ross-wylie
+Copyright (c) 2026 Ross Wylie
+
+Protocol knowledge derived from the CQC driver
+MEng.User.CQC.Drivers.ReliableControls.Mach.Driver by Mark Stega (2007-2010).
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
